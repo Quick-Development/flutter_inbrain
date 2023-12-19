@@ -114,7 +114,7 @@ public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
     
     func showSurveys(completion: @escaping (Result<Void, Error>) -> Void) {
         InBrain.shared.showSurveys()
-        completion(.success(Void))
+        completion(.success(nil))
     }
     
     func areSurveysAvailable(completion: @escaping (Result<Bool, Error>) -> Void) {
