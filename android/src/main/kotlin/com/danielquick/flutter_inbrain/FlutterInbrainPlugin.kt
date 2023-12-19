@@ -1,15 +1,15 @@
 package com.danielquick.flutter_inbrain
 
+import FlutterError
 import InbrainApi
-import android.content.Context
-import android.app.Activity;
+import android.app.Activity
 import androidx.annotation.NonNull
 import com.inbrain.sdk.InBrain
 import com.inbrain.sdk.callback.StartSurveysCallback
+import com.inbrain.sdk.callback.SurveysAvailableCallback
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-
 
 
 /** FlutterInbrainPlugin */
@@ -45,22 +45,24 @@ class FlutterInbrainPlugin: FlutterPlugin, InbrainApi, ActivityAware {
     InBrain.getInstance().setInBrain(activity, clientId, secret, isS2S, userId);
   }
 
-  override fun showSurveys() {
-    println("trying to show surveys");
+  override fun showSurveys(callback: (Result<Unit>) -> Unit) {
     InBrain.getInstance().showSurveys(activity, object : StartSurveysCallback {
       override fun onSuccess() {
-        println("surveys shown successfully");
-        // successfully opened the survey wall
+        callback(Result.success(Unit))
       }
 
       override fun onFail(message: String) {
-        println("surveys error: " + message);
-        // failed to open the survey wall
+        println("surveys error: $message");
+        callback(Result.failure(FlutterError("0", message, "")))
       }
     })
   }
 
-  override fun areSurveysAvailable(): Boolean {
-    return true
+  override fun areSurveysAvailable(callback: (Result<Boolean>) -> Unit) {
+    InBrain.getInstance().areSurveysAvailable(activity, object : SurveysAvailableCallback {
+      override fun onSurveysAvailable(available: Boolean) {
+        callback(Result.success(available))
+      }
+    })
   }
 }

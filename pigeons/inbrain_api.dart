@@ -14,7 +14,9 @@ import 'package:pigeon/pigeon.dart';
 abstract class InbrainApi {
   void initialize(String clientId, String secret, bool isS2S, String userId);
 
+  @async
   void showSurveys();
 
+  @async
   bool areSurveysAvailable();
 }

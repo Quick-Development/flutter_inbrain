@@ -41,11 +41,12 @@ class FlutterError (
   override val message: String? = null,
   val details: Any? = null
 ) : Throwable()
+
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface InbrainApi {
   fun initialize(clientId: String, secret: String, isS2S: Boolean, userId: String)
-  fun showSurveys()
-  fun areSurveysAvailable(): Boolean
+  fun showSurveys(callback: (Result<Unit>) -> Unit)
+  fun areSurveysAvailable(callback: (Result<Boolean>) -> Unit)
 
   companion object {
     /** The codec used by InbrainApi. */
@@ -81,14 +82,14 @@ interface InbrainApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.flutter_inbrain.InbrainApi.showSurveys", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              api.showSurveys()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
+            api.showSurveys() { result: Result<Unit> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                reply.reply(wrapResult(null))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)
@@ -98,13 +99,15 @@ interface InbrainApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.flutter_inbrain.InbrainApi.areSurveysAvailable", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              wrapped = listOf<Any?>(api.areSurveysAvailable())
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
+            api.areSurveysAvailable() { result: Result<Boolean> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(wrapResult(data))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)

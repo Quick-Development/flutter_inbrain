@@ -37,11 +37,12 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   if value is NSNull { return nil }
   return value as! T?
 }
+
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol InbrainApi {
   func initialize(clientId: String, secret: String, isS2S: Bool, userId: String) throws
-  func showSurveys() throws
-  func areSurveysAvailable() throws -> Bool
+  func showSurveys(completion: @escaping (Result<Void, Error>) -> Void)
+  func areSurveysAvailable(completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -70,11 +71,13 @@ class InbrainApiSetup {
     let showSurveysChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.flutter_inbrain.InbrainApi.showSurveys", binaryMessenger: binaryMessenger)
     if let api = api {
       showSurveysChannel.setMessageHandler { _, reply in
-        do {
-          try api.showSurveys()
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
+        api.showSurveys() { result in
+          switch result {
+            case .success:
+              reply(wrapResult(nil))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
         }
       }
     } else {
@@ -83,11 +86,13 @@ class InbrainApiSetup {
     let areSurveysAvailableChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.flutter_inbrain.InbrainApi.areSurveysAvailable", binaryMessenger: binaryMessenger)
     if let api = api {
       areSurveysAvailableChannel.setMessageHandler { _, reply in
-        do {
-          let result = try api.areSurveysAvailable()
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
+        api.areSurveysAvailable() { result in
+          switch result {
+            case .success(let res):
+              reply(wrapResult(res))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
         }
       }
     } else {
