@@ -108,25 +108,25 @@ class InbrainApiSetup {
 
 public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
     func initialize(clientId: String, secret: String, isS2S: Bool, userId: String) throws {
-        InBrain.shared.setInBrain(clientId, secret, isS2S)
-        InBrain.shared.set(userId)
+        InBrain.shared.setInBrain(apiClientID: clientId, apiSecret: secret, isS2S: isS2S)
+        InBrain.shared.set(userID: userId)
     }
     
     func showSurveys(completion: @escaping (Result<Void, Error>) -> Void) {
         InBrain.shared.showSurveys()
-        completion(null)
+        completion(.success(Void))
     }
     
     func areSurveysAvailable(completion: @escaping (Result<Bool, Error>) -> Void) {
         InBrain.shared.checkForAvailableSurveys { [weak self] hasSurveys, _ in
-            completion(hasSurveys)
+            completion(.success(hasSurveys))
         }
     }
     
   public static func register(with registrar: FlutterPluginRegistrar) {
       let messenger: FlutterBinaryMessenger = registrar.messenger()
       let api: InbrainApi & NSObjectProtocol = FlutterInbrainPlugin.init()
-      FlutterInbrainPlugin.setUp(binaryMessenger: messenger, api: api)
+      InbrainApiSetup.setUp(binaryMessenger: messenger, api: api)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {

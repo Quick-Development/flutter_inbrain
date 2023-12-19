@@ -2,10 +2,16 @@ PODS:
   - Flutter (1.0.0)
   - flutter_inbrain (0.0.1):
     - Flutter
+    - InBrainSurveys
+  - InBrainSurveys (1.8.7)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inbrain (from `.symlinks/plugins/flutter_inbrain/ios`)
+
+SPEC REPOS:
+  trunk:
+    - InBrainSurveys
 
 EXTERNAL SOURCES:
   Flutter:
@@ -15,7 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_inbrain: 26e5d0f7441f574a5f2f9dd7b3c9a6df17160a87
+  flutter_inbrain: ad1ec0486c56444421e41811c06ead0d92b5de60
+  InBrainSurveys: 232582b42dd53159b4f0215e2e3c3e704efc7f9c
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
