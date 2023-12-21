@@ -113,10 +113,10 @@ public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
         
         let config = InBrainNavBarConfig(backgroundColor: UIColor(red: 139, green: 215, blue: 83, alpha: 1), buttonsColor: .white,
                                        titleColor: .white, isTranslucent: false, hasShadow: false)
-        inBrain.setNavigationBarConfig(config)
+        InBrain.shared.setNavigationBarConfig(config)
 
         let statusBarConfig = InBrainStatusBarConfig(statusBarStyle: .lightContent, hideStatusBar: false)
-        inBrain.setStatusBarConfig(statusBarConfig)
+        InBrain.shared.setStatusBarConfig(statusBarConfig)
     }
     
     func showSurveys(completion: @escaping (Result<Void, Error>) -> Void) {
