@@ -111,6 +111,8 @@ public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
         InBrain.shared.setInBrain(apiClientID: clientId, apiSecret: secret, isS2S: isS2S)
         InBrain.shared.set(userID: userId)
         
+        InBrain.shared.setNavigationBarTitle("Answer2Earn")
+        
         let config = InBrainNavBarConfig(backgroundColor: UIColor(red: 0.545, green: 0.843, blue: 0.325, alpha: 1), buttonsColor: .white,
                                        titleColor: .white, isTranslucent: false, hasShadow: false)
         InBrain.shared.setNavigationBarConfig(config)
