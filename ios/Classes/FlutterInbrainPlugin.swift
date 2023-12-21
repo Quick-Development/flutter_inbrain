@@ -110,7 +110,13 @@ public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
     func initialize(clientId: String, secret: String, isS2S: Bool, userId: String) throws {
         InBrain.shared.setInBrain(apiClientID: clientId, apiSecret: secret, isS2S: isS2S)
         InBrain.shared.set(userID: userId)
-        inBrain.setNavigationBarTitle("Answer2Earn")
+        
+        let config = InBrainNavBarConfig(backgroundColor: UIColor(hex: "8bd753"), buttonsColor: .white,
+                                       titleColor: .white, isTranslucent: false, hasShadow: false)
+        inBrain.setNavigationBarConfig(config)
+
+        let statusBarConfig = InBrainStatusBarConfig(statusBarStyle: .lightContent, hideStatusBar: false)
+        inBrain.setStatusBarConfig(statusBarConfig)
     }
     
     func showSurveys(completion: @escaping (Result<Void, Error>) -> Void) {
