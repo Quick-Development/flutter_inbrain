@@ -2,11 +2,13 @@ package com.danielquick.flutter_inbrain
 
 import FlutterError
 import InbrainApi
+import android.R
 import android.app.Activity
 import androidx.annotation.NonNull
 import com.inbrain.sdk.InBrain
 import com.inbrain.sdk.callback.StartSurveysCallback
 import com.inbrain.sdk.callback.SurveysAvailableCallback
+import com.inbrain.sdk.config.ToolBarConfig
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -43,6 +45,10 @@ class FlutterInbrainPlugin: FlutterPlugin, InbrainApi, ActivityAware {
 
   override fun initialize(clientId: String, secret: String, isS2S: Boolean, userId: String) {
     InBrain.getInstance().setInBrain(activity, clientId, secret, isS2S, userId);
+    val toolBarConfig = ToolBarConfig()
+    toolBarConfig.title = "Answer2Earn" // set title
+
+    InBrain.getInstance().setToolbarConfig(toolBarConfig)
   }
 
   override fun showSurveys(callback: (Result<Unit>) -> Unit) {

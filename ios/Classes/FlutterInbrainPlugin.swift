@@ -110,6 +110,7 @@ public class FlutterInbrainPlugin: NSObject, FlutterPlugin, InbrainApi {
     func initialize(clientId: String, secret: String, isS2S: Bool, userId: String) throws {
         InBrain.shared.setInBrain(apiClientID: clientId, apiSecret: secret, isS2S: isS2S)
         InBrain.shared.set(userID: userId)
+        inBrain.setNavigationBarTitle("Answer2Earn")
     }
     
     func showSurveys(completion: @escaping (Result<Void, Error>) -> Void) {
