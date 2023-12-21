@@ -4,6 +4,7 @@ import FlutterError
 import InbrainApi
 import android.R
 import android.app.Activity
+import android.graphics.Color
 import androidx.annotation.NonNull
 import com.inbrain.sdk.InBrain
 import com.inbrain.sdk.callback.StartSurveysCallback
@@ -48,6 +49,10 @@ class FlutterInbrainPlugin: FlutterPlugin, InbrainApi, ActivityAware {
     val toolBarConfig = ToolBarConfig()
     toolBarConfig.title = "Answer2Earn" // set title
 
+
+    toolBarConfig.setToolbarColor(Color.parseColor("x8bd753"))
+        .setBackButtonColor(Color.parseColor("xffffff"))
+    toolBarConfig.setElevationEnabled(false)
     InBrain.getInstance().setToolbarConfig(toolBarConfig)
   }
 
